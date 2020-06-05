@@ -22,7 +22,7 @@ public class Topic_04_baiTap_Browser {
 	@Test
 	public void TC_01_Verify_URL() throws InterruptedException
 	{
-	//step 1: truy cap trang
+	//step 1: truy cap trang.
 	driver.get("http://live.demoguru99.com/");
 	Thread.sleep(2000);
 	//step 2: click on My Account in footer
