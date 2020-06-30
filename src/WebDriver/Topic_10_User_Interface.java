@@ -18,6 +18,7 @@ import org.testng.annotations.Test;
 import com.sun.corba.se.spi.orbutil.fsm.Action;
 import com.sun.corba.se.spi.orbutil.fsm.FSM;
 import com.sun.corba.se.spi.orbutil.fsm.Input;
+import com.sun.xml.internal.bind.v2.model.core.Element;
 import com.sun.xml.internal.bind.v2.runtime.unmarshaller.XsiNilLoader.Array;
 
 
@@ -71,7 +72,7 @@ public class Topic_10_User_Interface {
 			Object[] selectedActual = (Object[]) allItemSelectedText.toArray();
 			Assert.assertEquals(selectedActual, AllItemExpected);
 		}
-		@Test
+	@Test
 		public void TC_03_ClickAndHoverToElementRandom() {
 			driver.get("https://jqueryui.com/resources/demos/selectable/display-grid.html");
 			sleepInSecond(2);
@@ -99,7 +100,36 @@ public class Topic_10_User_Interface {
 			sleepInSecond(2);
 			
 		}
-		
+		@Test
+		public void TC_05_RightClick() {
+			driver.get("http://swisnl.github.io/jQuery-contextMenu/demo.html");
+			//Step 2: Right click to "right click me"
+			WebElement clickButton = driver.findElement(By.xpath("//span[text()='right click me']"));
+			action.contextClick(clickButton).perform();
+			sleepInSecond(2);
+			//Step 3: Hover to Quit button
+			WebElement quitButton = driver.findElement(By.cssSelector(".context-menu-icon-quit"));
+			action.moveToElement(quitButton).perform();
+			sleepInSecond(2);
+			//Verify Quit button has: hover/visible status
+			String quitAtributeClass = quitButton.getAttribute("class");
+			Assert.assertTrue(quitAtributeClass.contains("context-menu-visible"));
+			Assert.assertTrue(quitAtributeClass.contains("context-menu-hover"));
+			Assert.assertTrue(driver.findElement(By.cssSelector(".context-menu-icon-quit.context-menu-hover.context-menu-visible")).isDisplayed());
+		}
+		@Test
+		public void TC_06_DragAnđrop() {
+			driver.get("https://demos.telerik.com/kendo-ui/dragdrop/angular");
+			WebElement source = driver.findElement(By.xpath("//div[@id='draggable']"));
+			WebElement target = driver.findElement(By.xpath("//div[@id='droptarget']"));
+			//Step 2: keo vong tron nho vao vong tron lon
+			action.dragAndDrop(source, target).perform();
+			sleepInSecond(2);
+			//Verify drag and drop success
+			Assert.assertEquals(target.getText(), "You did great!");
+			
+			
+		}
 		public void sleepInSecond (long time) {
 			try {
 				Thread.sleep(time*1000);
