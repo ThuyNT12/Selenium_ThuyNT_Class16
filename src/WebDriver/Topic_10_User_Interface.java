@@ -118,7 +118,7 @@ public class Topic_10_User_Interface {
 			Assert.assertTrue(driver.findElement(By.cssSelector(".context-menu-icon-quit.context-menu-hover.context-menu-visible")).isDisplayed());
 		}
 		@Test
-		public void TC_06_DragAnđrop() {
+		public void TC_06_DragAndDrop() {
 			driver.get("https://demos.telerik.com/kendo-ui/dragdrop/angular");
 			WebElement source = driver.findElement(By.xpath("//div[@id='draggable']"));
 			WebElement target = driver.findElement(By.xpath("//div[@id='droptarget']"));
