@@ -118,7 +118,16 @@ public class Topic12_Iframe {
 			}
 					
 		}
-		
+		public void witchWindowByID(String parentID) {
+			Set<String> allWindows = driver.getWindowHandles();
+			for (String runWindow: allWindows) {
+				if(!runWindow.equals(parentID)) {
+					driver.switchTo().window(runWindow);
+					break;
+				}
+			}
+					
+		}
 		@AfterClass
 		public void afterClass() {
 			driver.quit();
