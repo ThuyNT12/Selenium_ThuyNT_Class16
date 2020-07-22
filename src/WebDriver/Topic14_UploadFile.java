@@ -101,6 +101,7 @@ public class Topic14_UploadFile {
 	{
 		System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir") + "/BrowserDriver/chromedriver.exe");
 		driver = new ChromeDriver();
+		jsExecutor = (JavascriptExecutor) driver;
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 		driver.manage().window().maximize();
 		
