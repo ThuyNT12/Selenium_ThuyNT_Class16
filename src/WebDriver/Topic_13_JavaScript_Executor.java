@@ -20,6 +20,7 @@ public class Topic_13_JavaScript_Executor {
 	//check push
 		@BeforeClass
 		public void beforeClass() {
+			System.setProperty("webdriver.gecko.driver", System.getProperty("user.dir") + "/BrowserDriver/geckodriver.exe");
 			driver = new FirefoxDriver();
 			jsExecutor = (JavascriptExecutor) driver;
 			driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);

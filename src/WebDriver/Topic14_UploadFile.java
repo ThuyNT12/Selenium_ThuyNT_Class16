@@ -18,6 +18,7 @@ import org.testng.annotations.Test;
 public class Topic14_UploadFile {
 	WebDriver driver;
 	JavascriptExecutor jsExecutor;
+	WebElement element;
 	String source_Folder = System.getProperty("user.dir");
 	String image_Name_01 = "HoaHong.jpg";
 	String image_Name_02 = "HoaSung.jpg";
@@ -34,6 +35,7 @@ public class Topic14_UploadFile {
 	//@Test
 	public void TC_01_UploadFile_Firefox()
 	{
+		System.setProperty("webdriver.gecko.driver", System.getProperty("user.dir") + "/BrowserDriver/geckodriver.exe");
 		driver = new FirefoxDriver();
 		
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
@@ -51,9 +53,7 @@ public class Topic14_UploadFile {
 		UploadFile.sendKeys(image_03_path);
 		sleepInSecond(2);
 		
-		Assert.assertTrue(isImageDisplayed("//img[contains(@src,'" + image_Name_01 + "')]"));
-		Assert.assertTrue(isImageDisplayed("//img[contains(@src,'" + image_Name_02 + "')]"));
-		Assert.assertTrue(isImageDisplayed("//img[contains(@src,'" + image_Name_03 + "')]"));
+		
 		List<WebElement> UploadButon = driver.findElements(By.cssSelector("td .start"));
 		for(WebElement start: UploadButon) {
 			start.click();
@@ -61,12 +61,41 @@ public class Topic14_UploadFile {
 		}
 		//Step 3: Kiem tra 3 file upload len thanh cong
 	//Assert.assertTrue(driver.findElement(By.xpath("//img[contains(@src,'" + image_Name_01 + "')]")).isDisplayed());
+		Assert.assertTrue(isImageDisplayed("//img[contains(@src,'" + image_Name_01 + "')]"));
+		Assert.assertTrue(isImageDisplayed("//img[contains(@src,'" + image_Name_02 + "')]"));
+		Assert.assertTrue(isImageDisplayed("//img[contains(@src,'" + image_Name_03 + "')]"));
 		
 		Assert.assertTrue(driver.findElement(By.xpath("//a[text()='" + image_Name_01 + "']")).isDisplayed());
 		Assert.assertTrue(driver.findElement(By.xpath("//a[text()='" + image_Name_02 + "']")).isDisplayed());
 		Assert.assertTrue(driver.findElement(By.xpath("//a[text()='" + image_Name_03 + "']")).isDisplayed());
 	}
-	
+	//@Test
+	public void TC_02_UploadFile_Chrome()
+	{
+		System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir") + "/BrowserDriver/chromedriver.exe");
+		driver = new ChromeDriver();
+		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+		driver.manage().window().maximize();
+		driver.get("http://blueimp.github.io/jQuery-File-Upload/");
+		sleepInSecond(2);
+		WebElement UploadFile = driver.findElement(By.xpath("//input[@type='file']"));
+		UploadFile.sendKeys(image_01_path + "\n" + image_02_path + "\n" + image_03_path);
+		sleepInSecond(3);
+		List<WebElement> UploadButon = driver.findElements(By.cssSelector("td .start"));
+		for(WebElement start: UploadButon) {
+			start.click();
+			sleepInSecond(3);
+		}
+		//Step 3: Kiem tra 3 file upload len thanh cong
+	//Assert.assertTrue(driver.findElement(By.xpath("//img[contains(@src,'" + image_Name_01 + "')]")).isDisplayed());
+		Assert.assertTrue(isImageDisplayed("//img[contains(@src,'" + image_Name_01 + "')]"));
+		Assert.assertTrue(isImageDisplayed("//img[contains(@src,'" + image_Name_02 + "')]"));
+		Assert.assertTrue(isImageDisplayed("//img[contains(@src,'" + image_Name_03 + "')]"));
+		
+		Assert.assertTrue(driver.findElement(By.xpath("//a[text()='" + image_Name_01 + "']")).isDisplayed());
+		Assert.assertTrue(driver.findElement(By.xpath("//a[text()='" + image_Name_02 + "']")).isDisplayed());
+		Assert.assertTrue(driver.findElement(By.xpath("//a[text()='" + image_Name_03 + "']")).isDisplayed());
+	}
 	@Test
 	public void TC_03_UploadFile()
 	{
@@ -76,12 +105,16 @@ public class Topic14_UploadFile {
 		driver.manage().window().maximize();
 		
 		driver.get("https://gofile.io/uploadFiles");
+		sleepInSecond(5);
 		String parentID = driver.getWindowHandle();
 		//Step 2: upload files and verify upload success
 		WebElement UploadFile = driver.findElement(By.xpath("//input[@type='file']"));
 		UploadFile.sendKeys(image_01_path + "\n" + image_02_path + "\n" + image_03_path);
 
-		sleepInSecond(3);
+		sleepInSecond(5);
+		scrollToElement("//button[@id='btnUpload']");
+		//clickToElementByJS("//button[@id='btnUpload']");
+		sleepInSecond(5);
 		//Click upload button 
 		driver.findElement(By.cssSelector("button#btnUpload")).click();
 		sleepInSecond(3);
@@ -122,6 +155,14 @@ public class Topic14_UploadFile {
 		"!= \"undefined\" && arguments[0].naturalWidth > 0", 
 		driver.findElement(By.xpath(xpathLocator)));
 		return imagePresence;
+	}
+	public void scrollToElement(String locator) {
+		 element = driver.findElement(By.xpath(locator));
+		jsExecutor.executeScript("arguments[0].scrollIntoView(true);", element);
+	}
+	public void clickToElementByJS(String locator) {
+		element = driver.findElement(By.xpath(locator));
+		jsExecutor.executeScript("arguments[0].click();", element);
 	}
 	public void sleepInSecond (long time) {
 		try {
